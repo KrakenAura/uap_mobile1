@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:uap_mobile1/app/modules/Appwrite/views/game_page.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/views/loginView.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/views/registerView.dart';
 
@@ -35,5 +36,7 @@ class AppPages {
       page: () => RegisterPage(),
       binding: AppwriteBinding(),
     ),
+    GetPage(
+        name: _Paths.GAME, page: () => GamePage(), binding: AppwriteBinding())
   ];
 }

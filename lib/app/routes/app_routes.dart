@@ -7,6 +7,7 @@ abstract class Routes {
   static const APPWRITE = _Paths.APPWRITE;
   static const LOGIN = _Paths.LOGIN;
   static const REGISTER = _Paths.REGISTER;
+  static const GAME = _Paths.GAME;
 }
 
 abstract class _Paths {
@@ -15,4 +16,5 @@ abstract class _Paths {
   static const APPWRITE = '/appwrite';
   static const LOGIN = '/login';
   static const REGISTER = '/Register';
+  static const GAME = '/game';
 }
