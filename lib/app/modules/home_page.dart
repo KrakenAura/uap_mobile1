@@ -1,9 +1,8 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:uap_mobile1/app/modules/const.dart';
-import 'package:uap_mobile1/app/util/my_button.dart';
-import 'package:uap_mobile1/app/util/result_message.dart';
+import 'package:uap_mobile1/app/const.dart';
+import 'package:uap_mobile1/app/modules/util/my_button.dart';
+import 'package:uap_mobile1/app/modules/util/result_message.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -13,7 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // number pad list
   List<String> numberPad = [
     '7',
     '8',
@@ -28,82 +26,142 @@ class _HomePageState extends State<HomePage> {
     '3',
     '=',
     '0',
+    '+',
+    '-',
+    '*',
+    '/',
+    '.',
   ];
 
-  // number A, number B
   int numberA = 1;
   int numberB = 1;
-
-  // user answer
+  String operator = '+';
   String userAnswer = '';
 
-  // user tapped a button
   void buttonTapped(String button) {
     setState(() {
       if (button == '=') {
-        // calculate if user is correct or incorrect
         checkResult();
       } else if (button == 'C') {
-        // clear the input
         userAnswer = '';
       } else if (button == 'DEL') {
-        // delete the last number
         if (userAnswer.isNotEmpty) {
           userAnswer = userAnswer.substring(0, userAnswer.length - 1);
         }
-      } else if (userAnswer.length < 3) {
-        // maximum of 3 numbers can be inputted
+      } else if (button == '.' && !userAnswer.contains('.')) {
         userAnswer += button;
+      } else if (button == '-' && userAnswer.isEmpty) {
+        // Handle input of negative sign when the answer is empty
+        userAnswer = '-';
+      } else if (userAnswer.length < 5) {
+        if (button == '+' || button == '-' || button == '*' || button == '/') {
+          operator = button;
+        } else {
+          userAnswer += button;
+        }
       }
     });
   }
 
-  // check if user is correct or not
   void checkResult() {
-    if (numberA + numberB == int.parse(userAnswer)) {
+    double correctAnswer = 0.0;
+
+    switch (operator) {
+      case '+':
+        correctAnswer = (numberA.toDouble() + numberB.toDouble());
+
+        break;
+      case '-':
+        correctAnswer = (numberA.toDouble() - numberB.toDouble());
+
+        break;
+      case '*':
+        correctAnswer = (numberA.toDouble() * numberB.toDouble());
+
+        break;
+      case '/':
+        if (numberB != 0) {
+          correctAnswer = (numberA / numberB).toDouble();
+          correctAnswer = double.parse(correctAnswer.toStringAsFixed(2));
+        } else {
+          // Handle division by zero
+          showDialog(
+            context: context,
+            builder: (context) {
+              return ResultMessage(
+                message: 'Cannot divide by zero!',
+                onTap: goBackToQuestion,
+                icon: Icons.rotate_left,
+              );
+            },
+          );
+          return;
+        }
+        break;
+      default:
+        return;
+    }
+
+    if ((correctAnswer == double.parse(userAnswer)) ||
+        (correctAnswer == -double.parse(userAnswer))) {
       showDialog(
-          context: context,
-          builder: (context) {
-            return ResultMessage(
-              message: 'Correct!',
-              onTap: goToNextQuestion,
-              icon: Icons.arrow_forward,
-            );
-          });
+        context: context,
+        builder: (context) {
+          return ResultMessage(
+            message: 'Correct!',
+            onTap: goToNextQuestion,
+            icon: Icons.arrow_forward,
+          );
+        },
+      );
     } else {
       showDialog(
-          context: context,
-          builder: (context) {
-            return ResultMessage(
-              message: 'Sorry try again',
-              onTap: goBackToQuestion,
-              icon: Icons.rotate_left,
-            );
-          });
+        context: context,
+        builder: (context) {
+          return ResultMessage(
+            message: 'Sorry, try again',
+            onTap: goBackToQuestion,
+            icon: Icons.rotate_left,
+          );
+        },
+      );
     }
   }
 
-  // create random numbers
   var randomNumber = Random();
 
-  // GO TO NEXT QUESTION
   void goToNextQuestion() {
-    // dismiss alert dialog
     Navigator.of(context).pop();
 
-    // reset values
     setState(() {
       userAnswer = '';
     });
 
-    // create a new question
+    int operation = randomNumber.nextInt(4);
     numberA = randomNumber.nextInt(10);
     numberB = randomNumber.nextInt(10);
+
+    switch (operation) {
+      case 0:
+        operator = '+';
+        break;
+      case 1:
+        operator = '-';
+        break;
+      case 2:
+        operator = '*';
+        break;
+      case 3:
+        operator = '/';
+        // avoid division by zero
+        numberB = randomNumber.nextInt(9) + 1;
+        break;
+      default:
+        break;
+    }
   }
 
-  // GO BACK TO QUESTION
   void goBackToQuestion() {
-    // dismiss alert dialog
     Navigator.of(context).pop();
   }
 
@@ -113,29 +171,23 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.deepPurple[300],
       body: Column(
         children: [
-          // level progress, player needs 5 correct answers in a row to proceed to next level
           Container(
             height: 160,
             color: Colors.deepPurple,
           ),
-
-          // question
           Expanded(
             child: Container(
               child: Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // question
                     Text(
-                      numberA.toString() + ' + ' + numberB.toString() + ' = ',
+                      '$numberA $operator $numberB = ',
                       style: whiteTextStyle,
                     ),
-
-                    // answer box
                     Container(
                       height: 50,
-                      width: 100,
+                      width: 150, // Ubah lebar kolom jawaban sesuai kebutuhan
                       decoration: BoxDecoration(
                         color: Colors.deepPurple[400],
                         borderRadius: BorderRadius.circular(4),
@@ -152,8 +204,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-
-          // number pad
           Expanded(
             flex: 2,
             child: Padding(
