@@ -168,12 +168,12 @@ class _GamePageState extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurple[300],
+      backgroundColor: Colors.blue[200],
       body: Column(
         children: [
           Container(
-            height: 160,
-            color: Colors.deepPurple,
+            height: 100,
+            color: Colors.blue[50],
           ),
           Expanded(
             child: Container(
@@ -189,7 +189,7 @@ class _GamePageState extends State<GamePage> {
                       height: 50,
                       width: 150, // Ubah lebar kolom jawaban sesuai kebutuhan
                       decoration: BoxDecoration(
-                        color: Colors.deepPurple[400],
+                        color: Colors.deepOrange[300],
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Center(
@@ -213,6 +213,7 @@ class _GamePageState extends State<GamePage> {
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4,
+                  childAspectRatio: 1.6,
                 ),
                 itemBuilder: (context, index) {
                   return MyButton(
