@@ -11,6 +11,7 @@ dependencies:
   google_fonts: ^6.1.0
   google_nav_bar: ^5.0.6
   get: 4.6.6
+  webview_flutter : ^4.2.2
   flutter:
     sdk: flutter
 
@@ -21,3 +22,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/logo_game_mobile.png

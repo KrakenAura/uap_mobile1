@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/views/game_page.dart';
+import 'package:uap_mobile1/app/modules/Appwrite/views/ig_view.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/views/loginView.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/views/registerView.dart';
 
@@ -13,7 +14,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.LOGIN;
+  static const INITIAL = Routes.HOME;
 
   static final routes = [
     GetPage(
@@ -37,6 +38,10 @@ class AppPages {
       binding: AppwriteBinding(),
     ),
     GetPage(
-        name: _Paths.GAME, page: () => GamePage(), binding: AppwriteBinding())
+        name: _Paths.GAME, page: () => GamePage(), binding: AppwriteBinding()),
+    GetPage(
+        name: _Paths.INSTAGRAM,
+        page: () => InstagramView(),
+        binding: AppwriteBinding())
   ];
 }
