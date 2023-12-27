@@ -12,6 +12,7 @@ class MyButton extends StatelessWidget {
     Key? key,
     required this.child,
     required this.onTap,
+    Color? color,
   }) : super(key: key);
 
   @override

@@ -168,12 +168,12 @@ class _GamePageState extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurple[300],
+      backgroundColor: Colors.deepOrange[300],
       body: Column(
         children: [
           Container(
-            height: 160,
-            color: Colors.deepPurple,
+            height: 100,
+            color: Colors.deepPurple[400],
           ),
           Expanded(
             child: Container(
@@ -213,6 +213,7 @@ class _GamePageState extends State<GamePage> {
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4,
+                  childAspectRatio: 1.6,
                 ),
                 itemBuilder: (context, index) {
                   return MyButton(
