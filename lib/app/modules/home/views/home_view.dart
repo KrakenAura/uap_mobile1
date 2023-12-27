@@ -144,6 +144,46 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 15,
+              ),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    Get.toNamed(Routes.PROFILE);
+                  },
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.transparent,
+                      elevation: 0,
+                      minimumSize: Size(200, 48),
+                      padding: EdgeInsets.all(0)),
+                  child: SizedBox(
+                    width: 200,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.orange[300],
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 5.0,
+                          ),
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            'Profile',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
