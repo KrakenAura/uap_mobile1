@@ -11,10 +11,14 @@ dependencies:
   google_fonts: ^6.1.0
   google_nav_bar: ^5.0.6
   get: 4.6.6
-  webview_flutter : ^4.2.2
+  webview_flutter: ^4.2.2
   image_picker:
   flutter:
     sdk: flutter
+  # firebase_core
+  firebase_core: ^2.15.1
+  # firebase_auth
+  firebase_auth: ^4.7.3
 
 dev_dependencies:
   flutter_lints: 3.0.1

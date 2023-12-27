@@ -168,12 +168,12 @@ class _GamePageState extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[200],
+      backgroundColor: Colors.deepOrange[300],
       body: Column(
         children: [
           Container(
             height: 100,
-            color: Colors.blue[50],
+            color: Colors.deepPurple[400],
           ),
           Expanded(
             child: Container(
@@ -189,7 +189,7 @@ class _GamePageState extends State<GamePage> {
                       height: 50,
                       width: 150, // Ubah lebar kolom jawaban sesuai kebutuhan
                       decoration: BoxDecoration(
-                        color: Colors.deepOrange[300],
+                        color: Colors.deepPurple[400],
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Center(
