@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/views/game_page.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/views/ig_view.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/views/loginView.dart';
+import 'package:uap_mobile1/app/modules/Appwrite/views/profile_page.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/views/registerView.dart';
 
 import '../modules/Appwrite/bindings/appwrite_binding.dart';
@@ -40,8 +41,15 @@ class AppPages {
     GetPage(
         name: _Paths.GAME, page: () => GamePage(), binding: AppwriteBinding()),
     GetPage(
+      name: _Paths.PROFILE,
+      page: () => ProfilePage(),
+      binding: AppwriteBinding(),
+    ),
+    GetPage(
         name: _Paths.INSTAGRAM,
         page: () => InstagramView(),
-        binding: AppwriteBinding())
+        binding: AppwriteBinding()),
+    GetPage(
+        name: _Paths.GAME, page: () => GamePage(), binding: AppwriteBinding())
   ];
 }
