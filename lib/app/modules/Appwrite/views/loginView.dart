@@ -10,8 +10,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final AuthController _accountController =
-      Get.put(AuthController()); // Use AccountController
+  // final AuthController _accountController =
+  //     Get.put(AuthController());
+  final AuthController _accountController = AuthController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
