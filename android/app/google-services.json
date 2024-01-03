@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "860817207908",
+    "project_id": "mathriddle-2718c",
+    "storage_bucket": "mathriddle-2718c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:860817207908:android:2ad06647e96ac9cef3e571",
+        "android_client_info": {
+          "package_name": "com.prak.uap_mobile1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcSrCdPbaEtaQ-D8-AFcrDP5_qwFBjw5A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
