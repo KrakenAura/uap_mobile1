@@ -1,8 +1,7 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:uap_mobile1/app/const.dart';
-import 'package:uap_mobile1/app/modules/util/my_button.dart';
-import 'package:uap_mobile1/app/modules/util/result_message.dart';
+import 'package:uap_mobile1/app/modules/Appwrite/controllers/leaderboard_controller.dart';
 
 class GameHardPage extends StatefulWidget {
   const GameHardPage({Key? key}) : super(key: key);
@@ -25,11 +24,8 @@ class _GameHardPageState extends State<GameHardPage> {
     '2',
     '3',
     '=',
-    '0',
-    '+',
     '-',
-    '*',
-    '/',
+    '0',
     '.',
   ];
 
@@ -37,6 +33,99 @@ class _GameHardPageState extends State<GameHardPage> {
   int numberB = 1;
   String operator = '+';
   String userAnswer = '';
+  int score = 0;
+
+  late Timer timer;
+  int timerSeconds = 60;
+
+  final LeaderboardController leaderboardController = LeaderboardController();
+
+  @override
+  void initState() {
+    super.initState();
+    startGame();
+  }
+
+  void startGame() {
+    generateQuestion();
+    startTimer();
+  }
+
+  void startTimer() {
+    timer = Timer.periodic(Duration(seconds: 1), (Timer t) {
+      setState(() {
+        if (timerSeconds > 0) {
+          timerSeconds--;
+        } else {
+          t.cancel();
+          endGame();
+        }
+      });
+    });
+  }
+
+  void endGame() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Game Over'),
+          content: Text('Your score: $score'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                leaderboardController.addUserToLeaderboard(
+                    'placeholderUsername', score);
+                resetGame();
+              },
+              child: Text('Play Again'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void resetGame() {
+    setState(() {
+      userAnswer = '';
+      score = 0;
+      timerSeconds = 60;
+    });
+
+    startGame();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+  void generateQuestion() {
+    int operation = Random().nextInt(4);
+    numberA = Random().nextInt(99);
+    numberB = Random().nextInt(99);
+
+    switch (operation) {
+      case 0:
+        operator = '+';
+        break;
+      case 1:
+        operator = '-';
+        break;
+      case 2:
+        operator = '*';
+        break;
+      case 3:
+        operator = '/';
+        numberB = Random().nextInt(9) + 1;
+        break;
+      default:
+        break;
+    }
+  }
 
   void buttonTapped(String button) {
     setState(() {
@@ -51,7 +140,6 @@ class _GameHardPageState extends State<GameHardPage> {
       } else if (button == '.' && !userAnswer.contains('.')) {
         userAnswer += button;
       } else if (button == '-' && userAnswer.isEmpty) {
-        // Handle input of negative sign when the answer is empty
         userAnswer = '-';
       } else if (userAnswer.length < 5) {
         if (button == '+' || button == '-' || button == '*' || button == '/') {
@@ -69,29 +157,29 @@ class _GameHardPageState extends State<GameHardPage> {
     switch (operator) {
       case '+':
         correctAnswer = (numberA.toDouble() + numberB.toDouble());
-
         break;
       case '-':
         correctAnswer = (numberA.toDouble() - numberB.toDouble());
-
         break;
       case '*':
         correctAnswer = (numberA.toDouble() * numberB.toDouble());
-
         break;
       case '/':
         if (numberB != 0) {
           correctAnswer = (numberA / numberB).toDouble();
           correctAnswer = double.parse(correctAnswer.toStringAsFixed(2));
         } else {
-          // Handle division by zero
           showDialog(
             context: context,
             builder: (context) {
-              return ResultMessage(
-                message: 'Cannot divide by zero!',
-                onTap: goBackToQuestion,
-                icon: Icons.rotate_left,
+              return AlertDialog(
+                title: Text('Cannot divide by zero!'),
+                actions: [
+                  TextButton(
+                    onPressed: goBackToQuestion,
+                    child: Text('OK'),
+                  ),
+                ],
               );
             },
           );
@@ -102,33 +190,39 @@ class _GameHardPageState extends State<GameHardPage> {
         return;
     }
 
-    if ((correctAnswer == double.parse(userAnswer)) ||
-        (correctAnswer == -double.parse(userAnswer))) {
+    if ((correctAnswer == double.parse(userAnswer))) {
       showDialog(
         context: context,
         builder: (context) {
-          return ResultMessage(
-            message: 'Correct!',
-            onTap: goToNextQuestion,
-            icon: Icons.arrow_forward,
+          return AlertDialog(
+            title: Text('Correct!'),
+            actions: [
+              TextButton(
+                onPressed: goToNextQuestion,
+                child: Text('Next Question'),
+              ),
+            ],
           );
         },
       );
+      score++;
     } else {
       showDialog(
         context: context,
         builder: (context) {
-          return ResultMessage(
-            message: 'Sorry, try again',
-            onTap: goBackToQuestion,
-            icon: Icons.rotate_left,
+          return AlertDialog(
+            title: Text('Sorry, try again'),
+            actions: [
+              TextButton(
+                onPressed: goBackToQuestion,
+                child: Text('Try Again'),
+              ),
+            ],
           );
         },
       );
     }
   }
-
-  var randomNumber = Random();
 
   void goToNextQuestion() {
     Navigator.of(context).pop();
@@ -137,28 +231,7 @@ class _GameHardPageState extends State<GameHardPage> {
       userAnswer = '';
     });
 
-    int operation = randomNumber.nextInt(4);
-    numberA = randomNumber.nextInt(99);
-    numberB = randomNumber.nextInt(99);
-
-    switch (operation) {
-      case 0:
-        operator = '+';
-        break;
-      case 1:
-        operator = '-';
-        break;
-      case 2:
-        operator = '*';
-        break;
-      case 3:
-        operator = '/';
-        // avoid division by zero
-        numberB = randomNumber.nextInt(9) + 1;
-        break;
-      default:
-        break;
-    }
+    generateQuestion();
   }
 
   void goBackToQuestion() {
@@ -183,11 +256,11 @@ class _GameHardPageState extends State<GameHardPage> {
                   children: [
                     Text(
                       '$numberA $operator $numberB = ',
-                      style: whiteTextStyle,
+                      style: TextStyle(color: Colors.white, fontSize: 24),
                     ),
                     Container(
                       height: 50,
-                      width: 150, // Ubah lebar kolom jawaban sesuai kebutuhan
+                      width: 150,
                       decoration: BoxDecoration(
                         color: Colors.deepPurple[400],
                         borderRadius: BorderRadius.circular(4),
@@ -195,7 +268,7 @@ class _GameHardPageState extends State<GameHardPage> {
                       child: Center(
                         child: Text(
                           userAnswer,
-                          style: whiteTextStyle,
+                          style: TextStyle(color: Colors.white, fontSize: 24),
                         ),
                       ),
                     )
@@ -216,11 +289,31 @@ class _GameHardPageState extends State<GameHardPage> {
                   childAspectRatio: 1.6,
                 ),
                 itemBuilder: (context, index) {
-                  return MyButton(
-                    child: numberPad[index],
-                    onTap: () => buttonTapped(numberPad[index]),
+                  return ElevatedButton(
+                    onPressed: () => buttonTapped(numberPad[index]),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.deepPurple[400],
+                      onPrimary: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: Text(
+                      numberPad[index],
+                      style: TextStyle(fontSize: 18),
+                    ),
                   );
                 },
+              ),
+            ),
+          ),
+          Container(
+            height: 50,
+            color: Colors.deepOrange[300],
+            child: Center(
+              child: Text(
+                'Time: $timerSeconds seconds | Score: $score',
+                style: TextStyle(fontSize: 18, color: Colors.white),
               ),
             ),
           ),
