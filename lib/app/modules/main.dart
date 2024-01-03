@@ -21,7 +21,7 @@ import 'package:uap_mobile1/app/routes/app_pages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(); // Initialize Firebase
+  // await Firebase.initializeApp(); // Initialize Firebase
   runApp(
     GetMaterialApp(
       title: "Application",

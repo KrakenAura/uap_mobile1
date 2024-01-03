@@ -30,7 +30,7 @@ class _HomeViewState extends State<HomeView> {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    Get.toNamed(Routes.GAME);
+                    Get.toNamed(Routes.DIFFICULTY);
                   },
                   style: ElevatedButton.styleFrom(
                       primary: Colors.transparent,
@@ -54,6 +54,7 @@ class _HomeViewState extends State<HomeView> {
                             'Play',
                             style: TextStyle(
                               color: Colors.white,
+                              fontFamily: 'Jua',
                               fontSize: 20.0,
                               fontWeight: FontWeight.bold,
                             ),
@@ -94,6 +95,7 @@ class _HomeViewState extends State<HomeView> {
                             'Account',
                             style: TextStyle(
                               color: Colors.white,
+                              fontFamily: 'Jua',
                               fontSize: 20.0,
                               fontWeight: FontWeight.bold,
                             ),
@@ -134,6 +136,7 @@ class _HomeViewState extends State<HomeView> {
                             'Our IG',
                             style: TextStyle(
                               color: Colors.white,
+                              fontFamily: 'Jua',
                               fontSize: 20.0,
                               fontWeight: FontWeight.bold,
                             ),
@@ -174,6 +177,7 @@ class _HomeViewState extends State<HomeView> {
                             'Profile',
                             style: TextStyle(
                               color: Colors.white,
+                              fontFamily: 'Jua',
                               fontSize: 20.0,
                               fontWeight: FontWeight.bold,
                             ),
