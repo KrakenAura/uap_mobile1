@@ -1,80 +1,63 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:uap_mobile1/app/modules/Appwrite/controllers/local_leaderboard_controller.dart';
-import 'package:uap_mobile1/app/modules/Appwrite/views/game_page.dart';
+// import 'package:flutter/material.dart';
+// import 'package:uap_mobile1/app/modules/Appwrite/controllers/local_leaderboard_controller.dart'; // Update this path
 
-class LeaderboardView extends StatelessWidget {
-  final LocalLeaderboardController leaderboardController =
-      Get.put(LocalLeaderboardController());
+// class LeaderboardPage extends StatefulWidget {
+//   final LocalLeaderboardController leaderboardController;
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Leaderboard'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Obx(
-          () => ListView.builder(
-            itemCount: leaderboardController.entries.length,
-            itemBuilder: (context, index) {
-              final entry = leaderboardController.entries[index];
-              return ListTile(
-                title: Text(entry.playerName),
-                subtitle: Text('Score: ${entry.score}'),
-              );
-            },
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _showAddEntryDialog(context);
-        },
-        child: Icon(Icons.add),
-      ),
-    );
-  }
+//   LeaderboardPage({required this.leaderboardController});
 
-  void _showAddEntryDialog(BuildContext context) {
-    TextEditingController nameController = TextEditingController();
+//   @override
+//   _LeaderboardPageState createState() => _LeaderboardPageState();
+// }
 
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Add New Entry'),
-          content: Column(
-            children: [
-              TextField(
-                controller: nameController,
-                decoration: InputDecoration(labelText: 'Player Name'),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                final playerName = nameController.text;
-                final score = 0; // You can set an initial score
-                if (playerName.isNotEmpty) {
-                  leaderboardController.addEntry(
-                      LeaderboardEntry(playerName: playerName, score: score));
-                }
-                Navigator.pop(context);
-              },
-              child: Text('Add'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
+// class _LeaderboardPageState extends State<LeaderboardPage> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Leaderboard'),
+//       ),
+//       body: StreamBuilder<List<Map<String, dynamic>>>(
+//         stream: widget.leaderboardController.leaderboardStream,
+//         builder: (context, snapshot) {
+//           if (snapshot.hasData) {
+//             List<Map<String, dynamic>> leaderboardData = snapshot.data!;
+//             return leaderboardData.isNotEmpty
+//                 ? ListView.builder(
+//                     itemCount: leaderboardData.length,
+//                     itemBuilder: (context, index) {
+//                       final user = leaderboardData[index];
+//                       return Card(
+//                         margin:
+//                             EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+//                         child: ListTile(
+//                           title: Text('${user['username']}'),
+//                           subtitle: Text('Score: ${user['score']}'),
+//                           leading: CircleAvatar(
+//                             backgroundColor: Colors.blue,
+//                             child: Text(
+//                               (index + 1).toString(),
+//                               style: TextStyle(color: Colors.white),
+//                             ),
+//                           ),
+//                         ),
+//                       );
+//                     },
+//                   )
+//                 : Center(
+//                     child: Text('No leaderboard data available.'),
+//                   );
+//           } else if (snapshot.hasError) {
+//             return Center(
+//               child: Text('Error fetching leaderboard data.'),
+//             );
+//           } else {
+//             return Center(
+//               child: CircularProgressIndicator(),
+//             );
+//           }
+//         },
+//       ),
+//     );
+//   }
+// }

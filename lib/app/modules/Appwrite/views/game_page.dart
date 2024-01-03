@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/controllers/local_leaderboard_controller.dart';
+import 'package:uap_mobile1/app/modules/Appwrite/views/local_leaderboard.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({Key? key}) : super(key: key);
@@ -34,49 +35,17 @@ class _GamePageState extends State<GamePage> {
   String operator = '+';
   String userAnswer = '';
   int score = 0;
-  String playerName = '';
-  bool playerNameEntered = false;
 
   late Timer timer;
   int timerSeconds = 60;
 
-  final LocalLeaderboardController localLeaderboardController =
-      LocalLeaderboardController();
+  // final LocalLeaderboardController leaderboardController =
+  //     LocalLeaderboardController();
 
   @override
   void initState() {
     super.initState();
-    getPlayerName();
     startGame();
-  }
-
-  void getPlayerName() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Enter your name:'),
-          content: TextField(
-            onChanged: (value) {
-              playerName = value;
-            },
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                if (playerName.isNotEmpty) {
-                  setState(() {
-                    playerNameEntered = true;
-                  });
-                }
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   void startGame() {
@@ -103,47 +72,46 @@ class _GamePageState extends State<GamePage> {
       builder: (context) {
         return AlertDialog(
           title: Text('Game Over'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Your score: $score'),
-              if (!playerNameEntered) ...[
-                Text('Enter your name:'),
-                TextField(
-                  onChanged: (value) {
-                    playerName = value;
-                  },
-                ),
-              ],
-            ],
-          ),
+          content: Text('Your score: $score'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                if (!playerNameEntered && playerName.isNotEmpty) {
-                  playerNameEntered = true;
-                  localLeaderboardController.addEntry(
-                    LeaderboardEntry(playerName: playerName, score: score),
-                  );
-                }
+                // leaderboardController.addUserToLeaderboard(
+                //     'placeholderUsername', score);
                 resetGame();
               },
               child: Text('Play Again'),
             ),
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.of(context).pop();
+            //     navigateToLeaderboard();
+            //   },
+            //   child: Text('Leaderboard'),
+            // ),
           ],
         );
       },
     );
   }
 
+  // void navigateToLeaderboard() {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => LeaderboardPage(
+  //         leaderboardController: leaderboardController,
+  //       ),
+  //     ),
+  //   );
+  // }
+
   void resetGame() {
     setState(() {
       userAnswer = '';
       score = 0;
       timerSeconds = 60;
-      playerName = '';
-      playerNameEntered = false;
     });
 
     startGame();
@@ -250,12 +218,7 @@ class _GamePageState extends State<GamePage> {
             title: Text('Correct!'),
             actions: [
               TextButton(
-                onPressed: () {
-                  goToNextQuestion();
-                  setState(() {
-                    playerNameEntered = true;
-                  });
-                },
+                onPressed: goToNextQuestion,
                 child: Text('Next Question'),
               ),
             ],
@@ -378,11 +341,4 @@ class _GamePageState extends State<GamePage> {
       ),
     );
   }
-}
-
-class LeaderboardEntry {
-  String playerName;
-  int score;
-
-  LeaderboardEntry({required this.playerName, required this.score});
 }

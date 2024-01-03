@@ -11,4 +11,6 @@ class LeaderboardController {
       'score': score,
     });
   }
+
+  getLeaderboardData() {}
 }

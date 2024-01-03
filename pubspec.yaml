@@ -19,6 +19,8 @@ dependencies:
   # firebase_auth
   firebase_auth: ^4.7.3
   get: 4.6.6
+  flame_audio: ^2.1.6  
+  flame: ^1.13.1
 
 dev_dependencies:
   flutter_lints: 3.0.1
@@ -32,4 +34,9 @@ flutter:
     - asset : assets/fonts/Jua-Regular.ttf
   uses-material-design: true
   assets:
+    - assets/audios/
     - assets/logo_game_mobile.png
+    # - assets/sounds/bgm.mp3
+    # - assets/sounds/lose.wav
+    # - assets/sounds/tap.wav
+    # - assets/sounds/win.wav

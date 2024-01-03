@@ -20,7 +20,7 @@ class AppPages {
 
   // static const INITIAL = Routes.HOME;
   // static const INITIAL = Routes.HOME;
-  static const INITIAL = Routes.LOGIN;
+  static const INITIAL = Routes.HOME;
 
   static final routes = [
     GetPage(
@@ -64,9 +64,9 @@ class AppPages {
         name: _Paths.GAME_HARD,
         page: () => GameHardPage(),
         binding: AppwriteBinding()),
-    GetPage(
-        name: _Paths.LOCAL_LEADERBOARD,
-        page: () => LeaderboardView(),
-        binding: AppwriteBinding())
+    // GetPage(
+    //     name: _Paths.LOCAL_LEADERBOARD,
+    //     page: () => LeaderboardPage(leaderboardController: leaderboardControllerInstance,),
+    //     binding: AppwriteBinding())
   ];
 }
