@@ -3,6 +3,7 @@ import 'package:uap_mobile1/app/modules/Appwrite/views/diff_page.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/views/game_hard_page.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/views/game_page.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/views/ig_view.dart';
+import 'package:uap_mobile1/app/modules/Appwrite/views/local_leaderboard.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/views/loginView.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/views/profile_page.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/views/registerView.dart';
@@ -17,8 +18,8 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  // static const INITIAL = Routes.HOME;
-  static const INITIAL = Routes.LOGIN;
+  static const INITIAL = Routes.HOME;
+  // static const INITIAL = Routes.LOGIN;
 
   static final routes = [
     GetPage(
@@ -61,6 +62,10 @@ class AppPages {
     GetPage(
         name: _Paths.GAME_HARD,
         page: () => GameHardPage(),
+        binding: AppwriteBinding()),
+    GetPage(
+        name: _Paths.LOCAL_LEADERBOARD,
+        page: () => LeaderboardView(),
         binding: AppwriteBinding())
   ];
 }
