@@ -26,6 +26,10 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
+  fonts:
+  - family: Jua
+    fonts:
+    - asset : assets/fonts/Jua-Regular.ttf
   uses-material-design: true
   assets:
     - assets/logo_game_mobile.png

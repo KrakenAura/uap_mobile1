@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:uap_mobile1/app/modules/Appwrite/views/diff_page.dart';
+import 'package:uap_mobile1/app/modules/Appwrite/views/game_hard_page.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/views/game_page.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/views/ig_view.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/views/loginView.dart';
@@ -40,7 +42,9 @@ class AppPages {
       binding: AppwriteBinding(),
     ),
     GetPage(
-        name: _Paths.GAME, page: () => GamePage(), binding: AppwriteBinding()),
+        name: _Paths.GAME_EZ,
+        page: () => GamePage(),
+        binding: AppwriteBinding()),
     GetPage(
       name: _Paths.PROFILE,
       page: () => ProfilePage(),
@@ -51,6 +55,12 @@ class AppPages {
         page: () => InstagramView(),
         binding: AppwriteBinding()),
     GetPage(
-        name: _Paths.GAME, page: () => GamePage(), binding: AppwriteBinding())
+        name: _Paths.DIFFICULTY,
+        page: () => DifficultyView(),
+        binding: AppwriteBinding()),
+    GetPage(
+        name: _Paths.GAME_HARD,
+        page: () => GameHardPage(),
+        binding: AppwriteBinding())
   ];
 }

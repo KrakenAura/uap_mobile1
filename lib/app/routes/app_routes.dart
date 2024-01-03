@@ -7,9 +7,11 @@ abstract class Routes {
   static const APPWRITE = _Paths.APPWRITE;
   static const LOGIN = _Paths.LOGIN;
   static const REGISTER = _Paths.REGISTER;
-  static const GAME = _Paths.GAME;
+  static const GAME_EZ = _Paths.GAME_EZ;
   static const INSTAGRAM = _Paths.INSTAGRAM;
   static const PROFILE = _Paths.PROFILE;
+  static const DIFFICULTY = _Paths.DIFFICULTY;
+  static const GAME_HARD = _Paths.GAME_HARD;
 }
 
 abstract class _Paths {
@@ -18,7 +20,9 @@ abstract class _Paths {
   static const APPWRITE = '/appwrite';
   static const LOGIN = '/login';
   static const REGISTER = '/Register';
-  static const GAME = '/game';
+  static const GAME_EZ = '/game_ez';
   static const INSTAGRAM = '/instagram';
   static const PROFILE = '/profile';
+  static const DIFFICULTY = '/difficulty';
+  static const GAME_HARD = '/game_hard';
 }
