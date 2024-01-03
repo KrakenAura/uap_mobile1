@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:uap_mobile1/app/modules/Appwrite/controllers/leaderboard_controller.dart';
+import 'package:uap_mobile1/app/modules/Appwrite/controllers/local_leaderboard_controller.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({Key? key}) : super(key: key);
@@ -34,16 +34,49 @@ class _GamePageState extends State<GamePage> {
   String operator = '+';
   String userAnswer = '';
   int score = 0;
+  String playerName = '';
+  bool playerNameEntered = false;
 
   late Timer timer;
   int timerSeconds = 60;
 
-  final LeaderboardController leaderboardController = LeaderboardController();
+  final LocalLeaderboardController localLeaderboardController =
+      LocalLeaderboardController();
 
   @override
   void initState() {
     super.initState();
+    getPlayerName();
     startGame();
+  }
+
+  void getPlayerName() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Enter your name:'),
+          content: TextField(
+            onChanged: (value) {
+              playerName = value;
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                if (playerName.isNotEmpty) {
+                  setState(() {
+                    playerNameEntered = true;
+                  });
+                }
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void startGame() {
@@ -70,13 +103,30 @@ class _GamePageState extends State<GamePage> {
       builder: (context) {
         return AlertDialog(
           title: Text('Game Over'),
-          content: Text('Your score: $score'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Your score: $score'),
+              if (!playerNameEntered) ...[
+                Text('Enter your name:'),
+                TextField(
+                  onChanged: (value) {
+                    playerName = value;
+                  },
+                ),
+              ],
+            ],
+          ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                leaderboardController.addUserToLeaderboard(
-                    'placeholderUsername', score);
+                if (!playerNameEntered && playerName.isNotEmpty) {
+                  playerNameEntered = true;
+                  localLeaderboardController.addEntry(
+                    LeaderboardEntry(playerName: playerName, score: score),
+                  );
+                }
                 resetGame();
               },
               child: Text('Play Again'),
@@ -92,6 +142,8 @@ class _GamePageState extends State<GamePage> {
       userAnswer = '';
       score = 0;
       timerSeconds = 60;
+      playerName = '';
+      playerNameEntered = false;
     });
 
     startGame();
@@ -198,7 +250,12 @@ class _GamePageState extends State<GamePage> {
             title: Text('Correct!'),
             actions: [
               TextButton(
-                onPressed: goToNextQuestion,
+                onPressed: () {
+                  goToNextQuestion();
+                  setState(() {
+                    playerNameEntered = true;
+                  });
+                },
                 child: Text('Next Question'),
               ),
             ],
@@ -321,4 +378,11 @@ class _GamePageState extends State<GamePage> {
       ),
     );
   }
+}
+
+class LeaderboardEntry {
+  String playerName;
+  int score;
+
+  LeaderboardEntry({required this.playerName, required this.score});
 }

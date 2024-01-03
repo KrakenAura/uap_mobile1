@@ -12,6 +12,7 @@ abstract class Routes {
   static const PROFILE = _Paths.PROFILE;
   static const DIFFICULTY = _Paths.DIFFICULTY;
   static const GAME_HARD = _Paths.GAME_HARD;
+  static const LOCAL_LEADERBOARD = _Paths.LOCAL_LEADERBOARD;
 }
 
 abstract class _Paths {
@@ -25,4 +26,5 @@ abstract class _Paths {
   static const PROFILE = '/profile';
   static const DIFFICULTY = '/difficulty';
   static const GAME_HARD = '/game_hard';
+  static const LOCAL_LEADERBOARD = '/local_leaderboard';
 }
