@@ -1,63 +1,32 @@
-// import 'package:flutter/material.dart';
-// import 'package:uap_mobile1/app/modules/Appwrite/controllers/local_leaderboard_controller.dart'; // Update this path
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:uap_mobile1/app/modules/Appwrite/controllers/local_leaderboard_controller.dart';
 
-// class LeaderboardPage extends StatefulWidget {
-//   final LocalLeaderboardController leaderboardController;
+class LeaderboardView extends StatelessWidget {
+  final LocalLeaderboardController leaderboardController;
 
-//   LeaderboardPage({required this.leaderboardController});
+  LeaderboardView({Key? key, LocalLeaderboardController? injectedController})
+      : leaderboardController = injectedController ?? Get.find(),
+        super(key: key);
 
-//   @override
-//   _LeaderboardPageState createState() => _LeaderboardPageState();
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Leaderboard'),
+      ),
+      body: ListView.builder(
+        itemCount: leaderboardController.leaderboardData.length,
+        itemBuilder: (context, index) {
+          final entry = leaderboardController.leaderboardData[index];
+          final username = entry['username'];
+          final score = entry['score'];
 
-// class _LeaderboardPageState extends State<LeaderboardPage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Leaderboard'),
-//       ),
-//       body: StreamBuilder<List<Map<String, dynamic>>>(
-//         stream: widget.leaderboardController.leaderboardStream,
-//         builder: (context, snapshot) {
-//           if (snapshot.hasData) {
-//             List<Map<String, dynamic>> leaderboardData = snapshot.data!;
-//             return leaderboardData.isNotEmpty
-//                 ? ListView.builder(
-//                     itemCount: leaderboardData.length,
-//                     itemBuilder: (context, index) {
-//                       final user = leaderboardData[index];
-//                       return Card(
-//                         margin:
-//                             EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-//                         child: ListTile(
-//                           title: Text('${user['username']}'),
-//                           subtitle: Text('Score: ${user['score']}'),
-//                           leading: CircleAvatar(
-//                             backgroundColor: Colors.blue,
-//                             child: Text(
-//                               (index + 1).toString(),
-//                               style: TextStyle(color: Colors.white),
-//                             ),
-//                           ),
-//                         ),
-//                       );
-//                     },
-//                   )
-//                 : Center(
-//                     child: Text('No leaderboard data available.'),
-//                   );
-//           } else if (snapshot.hasError) {
-//             return Center(
-//               child: Text('Error fetching leaderboard data.'),
-//             );
-//           } else {
-//             return Center(
-//               child: CircularProgressIndicator(),
-//             );
-//           }
-//         },
-//       ),
-//     );
-//   }
-// }
+          return ListTile(
+            title: Text('$username - Score: $score'),
+          );
+        },
+      ),
+    );
+  }
+}

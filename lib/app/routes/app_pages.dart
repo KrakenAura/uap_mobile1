@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:uap_mobile1/app/modules/Appwrite/controllers/local_leaderboard_controller.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/views/diff_page.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/views/game_hard_page.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/views/game_page.dart';
@@ -20,7 +21,7 @@ class AppPages {
 
   // static const INITIAL = Routes.HOME;
   // static const INITIAL = Routes.HOME;
-  static const INITIAL = Routes.HOME;
+  static const INITIAL = Routes.LOGIN;
 
   static final routes = [
     GetPage(
@@ -64,9 +65,11 @@ class AppPages {
         name: _Paths.GAME_HARD,
         page: () => GameHardPage(),
         binding: AppwriteBinding()),
-    // GetPage(
-    //     name: _Paths.LOCAL_LEADERBOARD,
-    //     page: () => LeaderboardPage(leaderboardController: leaderboardControllerInstance,),
-    //     binding: AppwriteBinding())
+    GetPage(
+        name: _Paths.LOCAL_LEADERBOARD,
+        page: () => LeaderboardView(),
+        binding: BindingsBuilder(() {
+          Get.put(LocalLeaderboardController());
+        })),
   ];
 }

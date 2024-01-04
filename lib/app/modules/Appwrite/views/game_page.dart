@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:uap_mobile1/app/modules/Appwrite/controllers/local_leaderboard_controller.dart';
-import 'package:uap_mobile1/app/modules/Appwrite/views/local_leaderboard.dart';
+import 'package:uap_mobile1/app/routes/app_pages.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({Key? key}) : super(key: key);
@@ -12,6 +13,10 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
+  TextEditingController usernameController = TextEditingController();
+  final LocalLeaderboardController leaderboardController =
+      LocalLeaderboardController();
+
   List<String> numberPad = [
     '7',
     '8',
@@ -66,35 +71,107 @@ class _GamePageState extends State<GamePage> {
     });
   }
 
-  void endGame() {
+  // void endGame() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return AlertDialog(
+  //         title: Text('Game Over'),
+  //         content: Column(
+  //           children: [
+  //             Text('Your score: $score'),
+  //             SizedBox(height: 20),
+  //             TextField(
+  //               controller: usernameController,
+  //               decoration: InputDecoration(
+  //                 labelText: 'Enter your username',
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //               leaderboardController.addUserToLeaderboard(
+  //                   usernameController.text, score);
+  //               resetGame();
+  //             },
+  //             child: Text('Play Again'),
+  //           ),
+  //           TextButton(
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //               Get.toNamed(Routes.LOCAL_LEADERBOARD);
+  //             },
+  //             child: Text('Leaderboard'),
+  //           ),
+  //           // TextButton(
+  //           //   onPressed: () {
+  //           //     Navigator.of(context).pop();
+  //           //     navigateToLeaderboard();
+  //           //   },
+  //           //   child: Text('Leaderboard'),
+  //           // ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
+
+void endGame() {
     showDialog(
       context: context,
       builder: (context) {
+        String playerName = ''; // Initialize playerName
+
         return AlertDialog(
           title: Text('Game Over'),
-          content: Text('Your score: $score'),
+          content: Column(
+            children: [
+              Text('Your score: $score'),
+              TextField(
+                onChanged: (value) {
+                  playerName = value;
+                },
+                decoration: InputDecoration(labelText: 'Enter your name'),
+              ),
+            ],
+          ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                // leaderboardController.addUserToLeaderboard(
-                //     'placeholderUsername', score);
                 resetGame();
               },
               child: Text('Play Again'),
             ),
-            // TextButton(
-            //   onPressed: () {
-            //     Navigator.of(context).pop();
-            //     navigateToLeaderboard();
-            //   },
-            //   child: Text('Leaderboard'),
-            // ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                addCurrentUserToLeaderboard(playerName);
+                Get.toNamed(Routes.LOCAL_LEADERBOARD);
+              },
+              child: Text('Leaderboard'),
+            ),
           ],
         );
       },
     );
   }
+
+  void addCurrentUserToLeaderboard(String playerName) {
+    final leaderboardController = Get.put(LocalLeaderboardController());
+
+    if (playerName.isNotEmpty) {
+      final entry = LeaderboardEntry(playerName: playerName, score: score);
+      leaderboardController.addEntry(entry);
+    } else {
+      // Handle the case where playerName is empty
+    }
+  }
+
+
 
   // void navigateToLeaderboard() {
   //   Navigator.push(
@@ -209,7 +286,7 @@ class _GamePageState extends State<GamePage> {
       default:
         return;
     }
-
+    
     if ((correctAnswer == double.parse(userAnswer))) {
       showDialog(
         context: context,

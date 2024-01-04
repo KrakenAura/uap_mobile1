@@ -6,7 +6,7 @@ class InstagramController extends GetxController {
   final controller = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted)
     ..setBackgroundColor(const Color(0xFF000000))
-    ..loadRequest(Uri.parse('https://instagram.com'));
+    ..loadRequest(Uri.parse('https://www.instagram.com/informatika.umm/'));
 
   get isLoading => null;
 
